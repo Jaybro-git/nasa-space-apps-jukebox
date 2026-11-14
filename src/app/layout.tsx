@@ -7,11 +7,11 @@ export const metadata: Metadata = {
     "NASA Earth visualizations turned into music: neutral base records modified frame by frame by ocean temperature, night lights and lightning data. Built for blind and low-vision listeners.",
 };
 
-export const viewport: Viewport = { themeColor: "#f8f1e8", width: "device-width", initialScale: 1 };
+export const viewport: Viewport = { themeColor: "#05050b", width: "device-width", initialScale: 1 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" data-theme="dark">
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />

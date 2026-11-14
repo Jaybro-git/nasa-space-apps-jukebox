@@ -51,7 +51,7 @@ export function App() {
   const [zoom, setZoomState] = useState(1);
   const [meridian, setMeridian] = useState(0);
   const [shortcutsOn, setShortcutsOn] = useState(true);
-  const [theme, setThemeState] = useState<Theme>("light");
+  const [theme, setThemeState] = useState<Theme>("dark");
   const [voiceOn, setVoiceOnState] = useState(true);
   const [started, setStarted] = useState(false);
   const [voiceCaption, setVoiceCaption] = useState("");
@@ -79,10 +79,10 @@ export function App() {
     [guide, announce],
   );
 
-  // ---- theme: saved choice, else the system preference ----
+  // ---- theme: night mode by default; a saved choice (M / the moon button) wins ----
   useEffect(() => {
     const saved = store.get("jukebox-theme") as Theme | null;
-    setThemeState(saved ?? (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"));
+    setThemeState(saved === "light" ? "light" : "dark");
     const v = store.get("jukebox-voice");
     if (v) setVoiceOnState(v === "on");
   }, []);
