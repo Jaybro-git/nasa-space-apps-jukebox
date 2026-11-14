@@ -387,11 +387,11 @@ input[type="range"] { accent-color: var(--orange); }
 [data-theme="dark"] .seg[aria-checked="true"], [data-theme="dark"] .seg[aria-pressed="true"], [data-theme="dark"] .chip[aria-pressed="true"] { color: #111; }
 
 .site-header { gap: 16px; }
-.viz-select { display: flex; flex-direction: column; gap: 2px; flex: 0 1 300px; min-width: 180px; }
-.viz-select .eyebrow { font-size: 9.5px; }
+/* same height (44px) and pill shape as the tabs next to it, so the two line up */
+.viz-select { display: flex; align-items: center; flex: 0 1 360px; min-width: 200px; }
 .viz-select select {
   font: inherit; font-size: 13px; font-weight: 700; color: var(--ink); background: var(--surface); cursor: pointer;
-  border: 1px solid var(--line-2); border-radius: 10px; padding: 7px 10px; min-height: 36px; width: 100%;
+  border: 1px solid var(--line-2); border-radius: 999px; padding: 0 16px; height: 44px; width: 100%;
 }
 .viz-select select option { color: #111; background: #fff; }
 .header-end { gap: 8px; align-items: center; flex-wrap: nowrap; }

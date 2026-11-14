@@ -42,7 +42,7 @@ export function Header(p: Props) {
       </div>
 
       <label className="viz-select">
-        <span className="eyebrow">Visualization</span>
+        <span className="sr-only">Visualization</span>
         <select value={p.vizId ?? ""} onChange={(e) => p.onPickViz(e.target.value)} aria-describedby="viz-keys">
           {p.tracks.map((t) => (
             <option key={t.id} value={t.id}>
