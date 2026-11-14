@@ -1,0 +1,35 @@
+{
+  "name": "earth-jukebox",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "npx serve out",
+    "lint": "next lint",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "data": ".venv/Scripts/python scripts/build_all.py",
+    "test:py": ".venv/Scripts/python -m pytest",
+    "voice": "node scripts/voice.mjs"
+  },
+  "dependencies": {
+    "@types/three": "^0.187.0",
+    "next": "16.4.6",
+    "react": "19.3.1",
+    "react-dom": "19.3.1",
+    "three": "^0.187.0",
+    "tone": "15.1.22"
+  },
+  "devDependencies": {
+    "@types/node": "^22",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "puppeteer-core": "^25.17.0",
+    "typescript": "~5.9.0",
+    "vitest": "^5"
+  },
+  "optionalDependencies": {
+    "@rolldown/binding-win32-x64-msvc": "^1.2.19"
+  }
+}

@@ -1,0 +1,19 @@
+# deps / build
+node_modules/
+.next/
+out/
+*.tsbuildinfo
+next-env.d.ts
+
+# python
+.venv/
+__pycache__/
+.pytest_cache/
+
+# raw SVS downloads (re-created by scripts/build_all.py)
+data-raw/
+
+# misc
+.DS_Store
+*.log
+.env*
