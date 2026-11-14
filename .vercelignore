@@ -1,0 +1,8 @@
+# Offline data pipeline (Python): runs locally, its output is already in public/
+scripts/
+data-raw/
+.venv/
+pytest.ini
+
+# Secrets: the Fish Audio key is only used at build time on your machine
+.env*
