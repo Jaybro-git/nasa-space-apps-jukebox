@@ -1,0 +1,44 @@
+{
+ "datasets": [
+  {
+   "id": "sst",
+   "title": "Ocean Currents & Sea Surface Temperature",
+   "kind": "decoded",
+   "kindLabel": "Decoded values (°C from the colorbar)",
+   "svsId": 3912,
+   "period": "2007-03-25 to 2008-03-03"
+  },
+  {
+   "id": "nightlights",
+   "title": "Night Lights 2012–2023",
+   "kind": "color",
+   "kindLabel": "No legend units: brightness and color are the data",
+   "svsId": 5313,
+   "period": "2012 to 2023"
+  },
+  {
+   "id": "lightning",
+   "title": "Lightning Seen from the ISS",
+   "kind": "events",
+   "kindLabel": "No legend units: detected flashes are the data",
+   "svsId": 5011,
+   "period": "2017 to 2023 (90 s excerpt)"
+  },
+  {
+   "id": "aerosols",
+   "title": "Aerosols: Smoke, Dust, Sea Salt, Sulfate",
+   "kind": "color",
+   "kindLabel": "Four aerosol types by colour; brightness = how much",
+   "svsId": 5669,
+   "period": "19 August 2025, 20:00 UTC"
+  },
+  {
+   "id": "earth",
+   "title": "Earth: Countries (Blue Marble)",
+   "kind": "atlas",
+   "kindLabel": "Still map: land, ocean and country borders",
+   "svsId": 0,
+   "period": "December 2004 composite"
+  }
+ ]
+}
