@@ -1,0 +1,46 @@
+{
+  "readouts": [],
+  "legendBar": {
+    "colors": [
+      "#d2604a",
+      "#c39cdb",
+      "#86aaa8",
+      "#53dc35"
+    ],
+    "min": "smoke · dust",
+    "max": "sea salt · sulfate"
+  },
+  "legend": [
+    {
+      "text": "Higher note means more aerosol under the probe. Silence means clear air.",
+      "demo": {
+        "target": "pitch",
+        "from": 0,
+        "to": 1
+      }
+    },
+    {
+      "text": "A soft tick means the aerosol type changed, and the new type is spoken.",
+      "demo": {
+        "target": "ticks",
+        "from": 0,
+        "to": 1
+      }
+    },
+    {
+      "text": "The Box tool scans an area west to east: north is higher, louder means more.",
+      "demo": {
+        "target": "events",
+        "from": 0,
+        "to": 1
+      }
+    }
+  ],
+  "mappings": [],
+  "narration": [],
+  "explore": {
+    "valueLabel": "of 100",
+    "decimals": 0,
+    "noData": "clear air"
+  }
+}

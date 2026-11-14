@@ -1,0 +1,50 @@
+{
+ "id": "aerosols",
+ "title": "Aerosols: Smoke, Dust, Sea Salt, Sulfate",
+ "svsId": 5669,
+ "svsUrl": "https://svs.gsfc.nasa.gov/5669/",
+ "kind": "color",
+ "kindLabel": "Four aerosol types by colour; brightness = how much",
+ "sourceLabel": "GEOS-FP model",
+ "description": "Smoke, dust, sea salt and sulfate drifting around the whole planet on 19 August 2025, from NASA's GEOS model. Each type has its own colour: red smoke from African and North American fires, a lilac river of Saharan dust over the Atlantic, pale sea salt whipped up by southern storms, and green sulfate from industry and volcanoes. Explore it by ear: higher means more aerosol, and the type is spoken when it changes.",
+ "units": "",
+ "range": [
+  0,
+  1
+ ],
+ "period": "19 August 2025, 20:00 UTC",
+ "projection": "equirectangular",
+ "aspect": 1.7777777777777777,
+ "video": {
+  "src": "",
+  "width": 1920,
+  "height": 1080,
+  "duration": 0,
+  "fps": 0,
+  "poster": "/data/aerosols/poster.jpg"
+ },
+ "caveats": [
+  "There is no numeric colorbar: strength is relative brightness (0 to 100), not a concentration.",
+  "Types are read from colour; where plumes overlap, the brighter colour wins.",
+  "City lights on land can read as faint aerosol; very faint values count as clear air."
+ ],
+ "grid": {
+  "w": 180,
+  "h": 90,
+  "min": 0,
+  "max": 100,
+  "noData": 255,
+  "label": "aerosol strength, 0-100"
+ },
+ "still": {
+  "image": "/data/aerosols/aerosols.jpg",
+  "regions": "/data/aerosols/types.json",
+  "regionWord": "aerosol type"
+ },
+ "shares": {
+  "Black carbon (smoke)": 0.0055,
+  "Dust": 0.0264,
+  "Sea salt": 0.0278,
+  "Sulfate": 0.116
+ }
+}
