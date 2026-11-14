@@ -1,0 +1,39 @@
+{
+ "id": "lightning",
+ "title": "Lightning Seen from the ISS",
+ "svsId": 5011,
+ "svsUrl": "https://svs.gsfc.nasa.gov/5011/",
+ "kind": "events",
+ "kindLabel": "No legend units: detected flashes are the data",
+ "sourceLabel": "LIS on the International Space Station",
+ "description": "Lightning events detected by the Lightning Imaging Sensor on the International Space Station, shown as a 10-day window rolling through the seasons. Every new flash becomes a percussive hit: left to right follows longitude, higher notes are further north. Listen to the storms swing between the hemispheres.",
+ "units": "flash density",
+ "range": [
+  0,
+  100
+ ],
+ "period": "2017 to 2023 (90 s excerpt)",
+ "projection": "equirectangular",
+ "aspect": 2.0,
+ "video": {
+  "src": "/data/lightning/video.mp4",
+  "poster": "/data/lightning/poster.jpg",
+  "width": 1280,
+  "height": 640,
+  "duration": 90.0,
+  "fps": 30
+ },
+ "caveats": [
+  "No colorbar or units: a flash is a detected event, and density is relative.",
+  "The Science On a Sphere movie has no date label, so this track describes seasons by where lightning is, not by calendar date.",
+  "90-second excerpt (source seconds 8 to 98) of a 100-second movie covering January 2017 to July 2023.",
+  "LIS on the ISS only sees between about 55 degrees north and south."
+ ],
+ "grid": {
+  "w": 72,
+  "h": 36,
+  "min": 0,
+  "max": 100,
+  "noData": 255
+ }
+}

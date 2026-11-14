@@ -1,0 +1,129 @@
+{
+  "readouts": [
+    {
+      "label": "New flashes",
+      "feature": "eventCount",
+      "decimals": 0
+    },
+    {
+      "label": "North share",
+      "feature": "northShare",
+      "format": "percent"
+    },
+    {
+      "label": "In tropics",
+      "feature": "tropicsShare",
+      "format": "percent"
+    },
+    {
+      "label": "Centre lat",
+      "feature": "centroid.lat",
+      "decimals": 0,
+      "unit": "°"
+    }
+  ],
+  "legendBar": {
+    "colors": [
+      "#1b1b1b",
+      "#8a7a1a",
+      "#ffe23a"
+    ],
+    "min": "no flashes",
+    "max": "dense flashes"
+  },
+  "legend": [
+    {
+      "text": "Each lightning flash is a plucked hit. Left and right is where it is, higher means further north, louder means bigger. More hits means more lightning.",
+      "demo": {
+        "target": "events",
+        "from": 0,
+        "to": 1
+      }
+    },
+    {
+      "text": "A steady note plays three times a second. It is higher when more storms are north of the equator.",
+      "demo": {
+        "target": "pitch",
+        "from": 0,
+        "to": 1
+      }
+    },
+    {
+      "text": "More of the map flashing: louder, brighter steady notes.",
+      "demo": {
+        "target": "luminance",
+        "from": 0.1,
+        "to": 1
+      }
+    },
+    {
+      "text": "The steady note leans toward where most flashes are, west on the left, east on the right.",
+      "demo": {
+        "target": "pan",
+        "from": -1,
+        "to": 1
+      }
+    }
+  ],
+  "mappings": [
+    {
+      "feature": "northShare",
+      "label": "Flashes north of the equator",
+      "unit": "%",
+      "target": "pitch",
+      "in": "auto",
+      "smooth": 0.6,
+      "why": "Share of flash pixels in the northern hemisphere: northern summer storms = higher steady notes, southern = lower."
+    },
+    {
+      "feature": "flashArea",
+      "label": "Map area flashing",
+      "decimals": 4,
+      "target": "luminance",
+      "in": "auto",
+      "smooth": 0.6,
+      "why": "Total flash area in the 10-day window: more storms = louder, brighter steady notes."
+    },
+    {
+      "feature": "centroid.x",
+      "label": "Longitude of the flash centre",
+      "decimals": 2,
+      "target": "pan",
+      "in": "auto",
+      "out": [
+        -1,
+        1
+      ],
+      "smooth": 0.8,
+      "why": "Where most flashes are, west (left) to east (right), within this excerpt."
+    }
+  ],
+  "events": {
+    "layer": "events",
+    "maxPerFrame": 3,
+    "minSize": 3,
+    "sizeRange": "auto",
+    "why": "New flash blobs (threshold on yellow + connected components). The largest ones per sample become plucked hits, at most 8 per second: size = loudness (3 steps), longitude = left/right, latitude = pitch (north = higher). The rhythm of the hits IS the lightning."
+  },
+  "narration": [
+    {
+      "atStart": true,
+      "template": "Lightning seen from the International Space Station. {northShare:%} of flashes are north of the equator, most active {region:hotspot}."
+    },
+    {
+      "feature": "northShare",
+      "minDelta": 0.2,
+      "template": "Storms shift. Now {northShare:%} of flashes are north of the equator, most active {region:hotspot}."
+    },
+    {
+      "feature": "flashArea",
+      "minDelta": 0.004,
+      "template": "Lightning activity {flashArea:trend}. Busiest {region:hotspot}."
+    }
+  ],
+  "explore": {
+    "valueLabel": "flash density, of 100",
+    "decimals": 0,
+    "noData": "no data"
+  }
+}
