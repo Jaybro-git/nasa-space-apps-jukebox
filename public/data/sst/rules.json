@@ -1,0 +1,143 @@
+{
+  "readouts": [
+    {
+      "label": "Mean",
+      "feature": "stats.mean",
+      "decimals": 1,
+      "unit": "°C"
+    },
+    {
+      "label": "Warmest",
+      "feature": "hotspot.value",
+      "decimals": 1,
+      "unit": "°C"
+    },
+    {
+      "label": "≥28 °C",
+      "feature": "shares.warm28",
+      "format": "percent"
+    },
+    {
+      "label": "Coldest",
+      "feature": "coldspot.value",
+      "decimals": 1,
+      "unit": "°C"
+    }
+  ],
+  "legend": [
+    {
+      "text": "One note per data sample, about every two seconds. Higher note means a warmer ocean on average.",
+      "demo": {
+        "target": "pitch",
+        "from": 0,
+        "to": 1
+      }
+    },
+    {
+      "text": "More ocean above 28 degrees: the note repeats faster, up to four times.",
+      "demo": {
+        "target": "density",
+        "from": 0,
+        "to": 1
+      }
+    },
+    {
+      "text": "Hotter hot spots: the notes get louder and brighter.",
+      "demo": {
+        "target": "luminance",
+        "from": 0.1,
+        "to": 1
+      }
+    },
+    {
+      "text": "The sound leans right when the northern oceans are warmer, left when the southern oceans are.",
+      "demo": {
+        "target": "pan",
+        "from": -1,
+        "to": 1
+      }
+    },
+    {
+      "text": "A soft bell marks each new month.",
+      "demo": {
+        "target": "ticks",
+        "from": 0,
+        "to": 1
+      }
+    }
+  ],
+  "mappings": [
+    {
+      "feature": "stats.mean",
+      "label": "Mean sea temperature",
+      "unit": "°C",
+      "decimals": 2,
+      "target": "pitch",
+      "in": "auto",
+      "smooth": 0.8,
+      "why": "Colour → pitch. Area-weighted mean of the decoded °C values: warmer ocean = higher note. The year's small swing (about 19.5–20.2 °C) is stretched across the pitch range so it is audible; the quiet guide tone follows the exact value."
+    },
+    {
+      "feature": "shares.warm28",
+      "label": "Ocean ≥ 28 °C",
+      "unit": "%",
+      "target": "density",
+      "in": "auto",
+      "smooth": 0.8,
+      "why": "Share of decoded ocean at or above 28 °C (the tropical warm pool): more warm water = the note repeats more often (1 to 4 times per sample)."
+    },
+    {
+      "feature": "stats.p90",
+      "label": "Warmest 10 % of the ocean",
+      "unit": "°C",
+      "decimals": 1,
+      "target": "luminance",
+      "in": "auto",
+      "smooth": 0.8,
+      "why": "90th percentile of decoded temperature: hotter hot spots = louder, brighter notes (3 loudness steps)."
+    },
+    {
+      "feature": "contrast.nsMid",
+      "label": "North − south mid-latitudes",
+      "unit": "°C",
+      "decimals": 1,
+      "target": "pan",
+      "in": [
+        -14,
+        14
+      ],
+      "out": [
+        -1,
+        1
+      ],
+      "smooth": 0.8,
+      "why": "Northern minus southern mid-latitude temperature (30–60°): northern summer leans right, southern summer leans left."
+    }
+  ],
+  "narration": [
+    {
+      "atStart": true,
+      "template": "Ocean surface temperature, starting {date}. Average {stats.mean:1} degrees Celsius."
+    },
+    {
+      "feature": "stats.mean",
+      "minDelta": 0.2,
+      "template": "{date}. Average {stats.mean:1} degrees. Warmest water about {hotspot.value:0} degrees, {place:hotspot}."
+    },
+    {
+      "feature": "contrast.nsMid",
+      "minDelta": 3,
+      "template": "{date}. Northern mid-latitude oceans are {contrast.nsMid:abs1} degrees {contrast.nsMid:warmer|colder} than the south."
+    },
+    {
+      "feature": "shares.warm28",
+      "minDelta": 0.03,
+      "template": "Water above 28 degrees now covers {shares.warm28:%} of the ocean."
+    }
+  ],
+  "explore": {
+    "valueLabel": "°C",
+    "decimals": 1,
+    "noData": "land"
+  }
+}
