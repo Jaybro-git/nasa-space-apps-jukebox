@@ -1,0 +1,191 @@
+{
+  "readouts": [
+    {
+      "label": "Lit vs start",
+      "feature": "litVsStart",
+      "decimals": 0,
+      "unit": "%"
+    },
+    {
+      "label": "Brighter",
+      "feature": "shares.gainFraction",
+      "format": "percent"
+    },
+    {
+      "label": "Dimmer",
+      "feature": "shares.lossFraction",
+      "format": "percent"
+    },
+    {
+      "label": "Year →",
+      "feature": "yearProgress",
+      "format": "percent"
+    }
+  ],
+  "legendBar": {
+    "colors": [
+      "#e8892b",
+      "#efe6da",
+      "#9b6bd6"
+    ],
+    "min": "less light",
+    "max": "more light"
+  },
+  "legend": [
+    {
+      "text": "One note per sample. More of the map lit means a higher note.",
+      "demo": {
+        "target": "pitch",
+        "from": 0,
+        "to": 1
+      }
+    },
+    {
+      "text": "More lit area: the note repeats faster.",
+      "demo": {
+        "target": "density",
+        "from": 0,
+        "to": 1
+      }
+    },
+    {
+      "text": "Brighter lights: louder, brighter notes.",
+      "demo": {
+        "target": "luminance",
+        "from": 0.1,
+        "to": 1
+      }
+    },
+    {
+      "text": "The years travel from your left ear, 2012, to your right ear, 2023.",
+      "demo": {
+        "target": "pan",
+        "from": -1,
+        "to": 1
+      }
+    },
+    {
+      "text": "In the change map, a flute on the right means more light.",
+      "demo": {
+        "target": "gain",
+        "from": 0,
+        "to": 1
+      }
+    },
+    {
+      "text": "And a bass on the left means less light.",
+      "demo": {
+        "target": "loss",
+        "from": 0,
+        "to": 1
+      }
+    }
+  ],
+  "mappings": [
+    {
+      "feature": "shares.lit",
+      "label": "Lit share of the map",
+      "decimals": 4,
+      "target": "pitch",
+      "in": "auto",
+      "smooth": 0.6,
+      "why": "Brightness → pitch. Fraction of pixels bright enough to be city light: more light = higher note."
+    },
+    {
+      "feature": "shares.lit",
+      "label": "Lit share of the map",
+      "decimals": 4,
+      "target": "density",
+      "in": "auto",
+      "out": [
+        0.2,
+        0.9
+      ],
+      "smooth": 0.6,
+      "why": "The same lit share sets how often the note repeats: more light = busier (1 to 4 notes per sample)."
+    },
+    {
+      "feature": "light",
+      "label": "Brightness of the lights",
+      "decimals": 4,
+      "target": "luminance",
+      "in": "auto",
+      "smooth": 0.6,
+      "why": "Mean brightness above the land background: brighter lights = louder, brighter notes."
+    },
+    {
+      "feature": "yearProgress",
+      "label": "Year on screen (2012 → 2023)",
+      "unit": "%",
+      "target": "pan",
+      "in": [
+        0,
+        1
+      ],
+      "out": [
+        -1,
+        1
+      ],
+      "smooth": 0.6,
+      "why": "The year label read from the video: 2012 sits in the left ear, 2023 in the right."
+    },
+    {
+      "feature": "shares.gainFraction",
+      "label": "Purple share of change (more light)",
+      "unit": "%",
+      "target": "gain",
+      "in": [
+        0,
+        1
+      ],
+      "smooth": 0.8,
+      "why": "Purple pixels in the change map: brighter in 2023 than 2012. More purple = a flute one step above the note, right ear."
+    },
+    {
+      "feature": "shares.lossFraction",
+      "label": "Orange share of change (less light)",
+      "unit": "%",
+      "target": "loss",
+      "in": [
+        0,
+        1
+      ],
+      "smooth": 0.8,
+      "why": "Orange pixels: darker in 2023 than 2012. More orange = a bass one step below, left ear."
+    }
+  ],
+  "narration": [
+    {
+      "atStart": true,
+      "template": "Night lights, 2012 to 2023. Higher notes mean more of the map is lit. The year moves from your left ear to your right."
+    },
+    {
+      "phase": "change",
+      "template": "Change map, 2012 versus 2023. Of the area that changed, {shares.gainFraction:%} got brighter, shown in purple and heard on the right. {shares.lossFraction:%} got darker, in orange, on the left."
+    },
+    {
+      "phase": "zoomAnnual",
+      "template": "Zoomed regions: Western Europe, the Eastern Mediterranean, Ukraine and India, 2012 to 2023."
+    },
+    {
+      "phase": "zoomChange",
+      "template": "Zoomed change. India: {regions.india.gain:%} of its lit area brighter. Western Europe: {regions.westernEurope.gain:%} brighter and {regions.westernEurope.loss:%} darker. Eastern Mediterranean: {regions.easternMediterranean.gain:%} brighter. Ukraine: {regions.ukraine.gain:%} brighter and {regions.ukraine.loss:%} darker."
+    },
+    {
+      "feature": "litVsStart",
+      "minDelta": 15,
+      "template": "{label}. Lit area is {litVsStart:0} percent of 2012's."
+    }
+  ],
+  "explore": {
+    "valueLabel": "",
+    "decimals": 0,
+    "noData": "label area, no data",
+    "format": {
+      "annual": "brightness {abs} of 100",
+      "zoomAnnual": "brightness {abs} of 100",
+      "change": "{dir}, strength {abs} of 100",
+      "zoomChange": "{dir}, strength {abs} of 100"
+    }
+  }
+}

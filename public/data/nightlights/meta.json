@@ -1,0 +1,70 @@
+{
+ "id": "nightlights",
+ "title": "Night Lights 2012–2023",
+ "svsId": 5313,
+ "svsUrl": "https://svs.gsfc.nasa.gov/5313/",
+ "kind": "color",
+ "kindLabel": "No legend units: brightness and color are the data",
+ "sourceLabel": "NASA Black Marble (VIIRS)",
+ "description": "Annual night-light maps from NASA's Black Marble product, 2012 to 2023, followed by a change map: purple where night lights grew, orange where they faded, then zoomed views of Western Europe, the Eastern Mediterranean, Ukraine and India. There are no units, so the music follows how much of the map is lit, brightening or dimming.",
+ "units": "relative",
+ "range": [
+  -100,
+  100
+ ],
+ "period": "2012 to 2023",
+ "projection": "equirectangular",
+ "aspect": 2.0,
+ "video": {
+  "src": "/data/nightlights/video.mp4",
+  "poster": "/data/nightlights/poster.jpg",
+  "width": 1280,
+  "height": 640,
+  "duration": 43.333,
+  "fps": 30
+ },
+ "phases": [
+  {
+   "id": "annual",
+   "start": 0.0,
+   "end": 10.0,
+   "label": "Annual night lights, 2012 to 2023"
+  },
+  {
+   "id": "change",
+   "start": 10.0,
+   "end": 20.5,
+   "label": "Change map, 2012 versus 2023"
+  },
+  {
+   "id": "zoomAnnual",
+   "start": 20.5,
+   "end": 37.0,
+   "label": "Zoomed regions, 2012 to 2023"
+  },
+  {
+   "id": "zoomChange",
+   "start": 37.0,
+   "end": 43.333,
+   "label": "Zoomed regions, change 2012 versus 2023"
+  }
+ ],
+ "regions": {
+  "westernEurope": "Western Europe",
+  "easternMediterranean": "Eastern Mediterranean",
+  "ukraine": "Ukraine",
+  "india": "India"
+ },
+ "caveats": [
+  "No colorbar or units: brightness and purple/orange area are relative measures, not radiance.",
+  "The EIC frame shows the world map twice side by side, stretched to 16:9. We use one copy, re-projected to 2:1 by matching its coastlines to a known lat/lon map (about 1 degree accuracy). Zoom-inset statistics come from the full frame.",
+  "Year labels and phase timing were read from the video; purple and orange compare 2012 with 2023 only."
+ ],
+ "grid": {
+  "w": 72,
+  "h": 36,
+  "min": -100,
+  "max": 100,
+  "noData": 255
+ }
+}
