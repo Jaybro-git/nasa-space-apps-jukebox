@@ -1,0 +1,49 @@
+{
+ "id": "earth",
+ "title": "Earth: Countries (Blue Marble)",
+ "svsId": 0,
+ "svsUrl": "https://science.nasa.gov/earth/earth-observatory/blue-marble-next-generation/",
+ "kind": "atlas",
+ "kindLabel": "Still map: land, ocean and country borders",
+ "sourceLabel": "NASA Blue Marble Next Generation",
+ "description": "NASA's Blue Marble: a cloud-free picture of the whole Earth (December 2004) with country borders and a real cloud layer. Explore it by ear as a soundscape: surf on shallow seas, a deep rumble over the deep ocean, a warm tone on land that rises with height, wind on the mountains and icy shimmer on glaciers. A soft tick marks a border and the country's name is spoken.",
+ "units": "",
+ "range": [
+  0,
+  1
+ ],
+ "period": "December 2004 composite",
+ "projection": "equirectangular",
+ "aspect": 2.0,
+ "video": {
+  "src": "",
+  "width": 4096,
+  "height": 2048,
+  "duration": 0,
+  "fps": 0,
+  "poster": "/data/earth/poster.jpg"
+ },
+ "caveats": [
+  "Borders are Natural Earth 1:50m: generalized, and some are disputed. They are shown for orientation only.",
+  "Elevation and depth are 1-degree means of NOAA ETOPO1, so single peaks and trenches are smoothed.",
+  "Ice is read from white land in the December Blue Marble (so it includes winter snow) plus Antarctica.",
+  "Clouds are one real day (MODIS, 15 July 2024), shown for context; they do not affect the sound."
+ ],
+ "grid": {
+  "w": 360,
+  "h": 180,
+  "min": 0,
+  "max": 1,
+  "noData": 255,
+  "label": "land fraction"
+ },
+ "still": {
+  "image": "/data/earth/earth.jpg",
+  "imageHi": "/data/earth/earth-hi.jpg",
+  "borders": "/data/earth/borders.json",
+  "regions": "/data/earth/countries.json",
+  "regionWord": "country",
+  "landMap": true,
+  "terrain": "/data/earth/terrain.json"
+ }
+}

@@ -1,0 +1,28 @@
+{
+  "readouts": [],
+  "legend": [
+    {
+      "text": "Each place has its own sound. Shallow sea is surf, deep ocean is a low rumble, land is a warm tone that rises with height, mountains add wind, and glaciers shimmer.",
+      "demo": {
+        "target": "scape",
+        "from": 0,
+        "to": 1
+      }
+    },
+    {
+      "text": "A soft tick means you crossed a border into another country, and then its name is spoken.",
+      "demo": {
+        "target": "ticks",
+        "from": 0,
+        "to": 1
+      }
+    }
+  ],
+  "mappings": [],
+  "narration": [],
+  "explore": {
+    "valueLabel": "",
+    "decimals": 0,
+    "noData": "ocean"
+  }
+}
