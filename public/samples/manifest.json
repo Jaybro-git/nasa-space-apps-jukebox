@@ -1,0 +1,61 @@
+{
+ "piano": {
+  "C2": "/samples/piano/C2.mp3",
+  "F#2": "/samples/piano/Fs2.mp3",
+  "C3": "/samples/piano/C3.mp3",
+  "F#3": "/samples/piano/Fs3.mp3",
+  "C4": "/samples/piano/C4.mp3",
+  "F#4": "/samples/piano/Fs4.mp3",
+  "C5": "/samples/piano/C5.mp3",
+  "F#5": "/samples/piano/Fs5.mp3",
+  "C6": "/samples/piano/C6.mp3",
+  "F#6": "/samples/piano/Fs6.mp3",
+  "C7": "/samples/piano/C7.mp3"
+ },
+ "cello": {
+  "C2": "/samples/cello/C2.mp3",
+  "F2": "/samples/cello/F2.mp3",
+  "A#2": "/samples/cello/As2.mp3",
+  "D#3": "/samples/cello/Ds3.mp3",
+  "G#3": "/samples/cello/Gs3.mp3",
+  "C#4": "/samples/cello/Cs4.mp3",
+  "F#4": "/samples/cello/Fs4.mp3",
+  "B4": "/samples/cello/B4.mp3"
+ },
+ "violin": {
+  "G3": "/samples/violin/G3.mp3",
+  "C4": "/samples/violin/C4.mp3",
+  "G4": "/samples/violin/G4.mp3",
+  "C5": "/samples/violin/C5.mp3",
+  "G5": "/samples/violin/G5.mp3",
+  "C6": "/samples/violin/C6.mp3",
+  "G6": "/samples/violin/G6.mp3",
+  "C7": "/samples/violin/C7.mp3"
+ },
+ "harp": {
+  "F2": "/samples/harp/F2.mp3",
+  "C3": "/samples/harp/C3.mp3",
+  "G3": "/samples/harp/G3.mp3",
+  "D4": "/samples/harp/D4.mp3",
+  "A4": "/samples/harp/A4.mp3",
+  "E5": "/samples/harp/E5.mp3",
+  "B5": "/samples/harp/B5.mp3",
+  "F6": "/samples/harp/F6.mp3",
+  "B6": "/samples/harp/B6.mp3"
+ },
+ "flute": {
+  "C4": "/samples/flute/C4.mp3",
+  "A4": "/samples/flute/A4.mp3",
+  "E5": "/samples/flute/E5.mp3",
+  "A5": "/samples/flute/A5.mp3",
+  "E6": "/samples/flute/E6.mp3",
+  "A6": "/samples/flute/A6.mp3"
+ },
+ "contrabass": {
+  "F#1": "/samples/contrabass/Fs1.mp3",
+  "C2": "/samples/contrabass/C2.mp3",
+  "F#2": "/samples/contrabass/Fs2.mp3",
+  "C#3": "/samples/contrabass/Cs3.mp3",
+  "G#3": "/samples/contrabass/Gs3.mp3"
+ }
+}
