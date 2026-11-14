@@ -82,6 +82,7 @@ export function Stage(p: Props) {
   const [playhead, setPlayhead] = useState<number | null>(null);
   const canvas = useRef<HTMLCanvasElement>(null);
   const inner = useRef<HTMLDivElement>(null);
+  const root = useRef<HTMLDivElement>(null);
   const announceTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const sweepRaf = useRef(0);
   const anchor = useRef<{ i: number; j: number } | null>(null);
@@ -149,6 +150,22 @@ export function Stage(p: Props) {
       lastCountry.current = null;
     }
   }, [exploring, engine]);
+
+  useEffect(() => {
+    const el = root.current;
+    if (!el) return;
+    const onGoto = (e: Event) => {
+      const { lat, lon } = (e as CustomEvent<{ lat: number; lon: number }>).detail;
+      const c = { i: clamp(Math.floor(((lon + 180) / 360) * w), 0, w - 1), j: clamp(Math.floor(((90 - lat) / 180) * h), 0, h - 1) };
+      setProbe(c);
+      setFollow(true);
+      p.setZoom(Math.max(p.zoom, 3));
+      lastCountry.current = null;
+      void readCell(c.i, c.j, "accent", { lat, lon });
+    };
+    el.addEventListener("jukebox:goto", onGoto);
+    return () => el.removeEventListener("jukebox:goto", onGoto);
+  });
 
   const animatePlayhead = (seconds: number) => {
     cancelAnimationFrame(sweepRaf.current);
@@ -366,6 +383,12 @@ export function Stage(p: Props) {
       announce(`${t.label} tool. ${t.help} Press Enter to play.`);
       return;
     }
+    if (k === "i" || k === "I") {
+      // where am I: place and value under the probe, whatever the tool
+      e.preventDefault();
+      void readCell(probe.i, probe.j, "accent");
+      return;
+    }
     if (k === "[" || k === "]") {
       e.preventDefault();
       const f = p.stepFrame(k === "]" ? 1 : -1);
@@ -493,6 +516,7 @@ export function Stage(p: Props) {
 
   return (
     <div
+      ref={root}
       className={`stage ${flat ? "stage-flat" : "stage-globe"} ${exploring ? "is-exploring" : ""}`}
       style={flat ? { aspectRatio: `${ds.meta.video.width} / ${ds.meta.video.height}` } : undefined}
       tabIndex={exploring ? 0 : -1}
@@ -500,7 +524,7 @@ export function Stage(p: Props) {
       aria-roledescription={exploring ? "explorable map" : undefined}
       aria-label={
         exploring
-          ? `${ds.meta.title}, paused for exploring. ${toolDef.label} tool. Keys 1 to 4 change tool: Point, Row, Column, Box. Arrow keys move, Shift moves faster${tool === "box" ? " and resizes the box" : ""}. Enter plays. Left and right square brackets step through frames. Plus and minus zoom. Escape leaves Explore.`
+          ? `${ds.meta.title}, paused for exploring. ${toolDef.label} tool. Keys 1 to 4 change tool: Point, Row, Column, Box. Arrow keys move, Shift moves faster${tool === "box" ? " and resizes the box" : ""}. Enter plays. Left and right square brackets step through frames. I says where you are. Plus and minus zoom. Escape leaves Explore.`
           : undefined
       }
       onKeyDown={onKey}

@@ -21,6 +21,8 @@ interface Props {
   setVoiceOn: (v: boolean) => void;
   ad: boolean;
   toggleAD: () => void;
+  listening: boolean;
+  onMic: () => void;
 }
 
 export function Header(p: Props) {
@@ -74,6 +76,18 @@ export function Header(p: Props) {
       </div>
 
       <div className="header-end">
+        <button
+          type="button"
+          className={`toggle icon-toggle mic-btn ${p.listening ? "is-listening" : ""}`}
+          aria-pressed={p.listening}
+          onClick={p.onMic}
+          aria-label="Voice command (K)"
+          title="Voice command (K). Speech is recognised by your browser: Chrome and Edge send the audio to Google or Microsoft to recognise it."
+        >
+          <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
+            <path fill="currentColor" d="M12 15a3 3 0 0 0 3-3V6a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3Zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.92V21h2v-2.08A7 7 0 0 0 19 12h-2Z" />
+          </svg>
+        </button>
         <button type="button" className="toggle" aria-pressed={p.voiceOn} onClick={() => p.setVoiceOn(!p.voiceOn)} title="Voice guide (V)">
           <span aria-hidden="true">🗣</span> Voice guide
         </button>

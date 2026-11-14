@@ -9,6 +9,7 @@
   - **Column**: the same north to south, with a deeper tick at the equator;
   - **Box**: a left-to-right image scan where north is higher and louder is more, followed by a spoken summary.
 - **Voice guide** (optional): a neural voice (Fish Audio, pre-recorded at build time) speaks the introduction, the keys, and an intro for each visualization, with the lowest and highest data notes played inline. Live details such as box summaries and country names use the browser's own voice.
+- **Voice commands** (push-to-talk, **K**): say *play*, *lightning*, *explore*, *far north*, *zoom in*, *where am I*, *go to France*, *help*… A small fixed grammar (`src/voice/commands.ts`, unit-tested) maps speech to the same actions as the keys. Speech is recognised by the browser (Chrome and Edge use Google / Microsoft servers; Firefox is not supported).
 - **Earth soundscape**: on the Earth map each place has its own sound, shaped by real NOAA ETOPO1 elevation and depth: surf on shallow seas, a low rumble over the deep ocean, a warm tone on land that rises with height, wind on mountains, icy shimmer on glaciers. A real day of NASA MODIS clouds drifts over the globe.
 - **Zoom** the globe or the flat map (wheel, pinch, + / −). **Night mode** layers the real Milky Way (NASA Deep Star Maps), slow nebula clouds and the react-bits Galaxy star field behind the app; the start screen uses the react-bits Topography field.
 - **The soundtrack is pressed offline** into cached stems for crackle-free playback.
@@ -78,8 +79,9 @@ Keyboard shortcuts:
 | M | Night mode |
 | V | Voice guide on / off |
 | H or ? | Hear all keys |
+| K | Voice command (push-to-talk) |
 | Ctrl or Esc | Silence the voice guide |
-| **In Explore** | 1–4 Point / Row / Column / Box · arrows move (Shift = faster, or resize the box) · Enter plays · A = whole map (Box) · [ ] previous / next frame · Esc leaves |
+| **In Explore** | 1–4 Point / Row / Column / Box · arrows move (Shift = faster, or resize the box) · Enter plays · I = where am I · A = whole map (Box) · [ ] previous / next frame · Esc leaves |
 
 Single-key shortcuts can be turned off under *Advanced*.
 

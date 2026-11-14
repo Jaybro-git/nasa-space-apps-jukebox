@@ -428,6 +428,14 @@ export class SoundEngine {
     return seconds;
   }
 
+  /** Voice-command earcons: "listen" = two rising pips, "done" = one falling, "fail" = two low. */
+  earcon(kind: "listen" | "done" | "fail"): void {
+    if (!this.ready) return;
+    const t = this.ctx.now() + 0.02;
+    const notes = kind === "listen" ? [880, 1320] : kind === "done" ? [1320, 990] : [330, 247];
+    notes.forEach((f, k) => this.tick.triggerAttackRelease(f, 0.06, t + k * 0.11, 0.55));
+  }
+
   /** A soft gridline / border tick right now (major = lower, stronger). */
   tickNow(major: boolean): void {
     if (this.ready) this.tick.triggerAttackRelease(major ? 440 : 1320, 0.04, this.ctx.now() + 0.01, major ? 0.6 : 0.35);

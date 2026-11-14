@@ -491,3 +491,18 @@ input[type="range"] { accent-color: var(--orange); }
 [data-theme="dark"] .note-card { background: rgba(10, 10, 22, 0.5); }
 .clouds-btn { position: absolute; left: 12px; top: 12px; z-index: 3; }
 .credits { font-size: 12px !important; line-height: 1.5; color: var(--ink-dim); margin: 6px 0 0; }
+
+/* ---------- voice commands (K) ---------- */
+.mic-btn.is-listening { background: #d93025; border-color: #d93025; color: #fff; animation: mic-pulse 1.2s ease-in-out infinite; }
+@keyframes mic-pulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(217, 48, 37, 0.45); } 50% { box-shadow: 0 0 0 8px rgba(217, 48, 37, 0); } }
+.voice-toast {
+  position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%); z-index: 60; display: flex; align-items: center; gap: 10px;
+  padding: 10px 18px; border-radius: 999px; background: var(--ink); color: var(--cream-ink); font-size: 14px; font-weight: 700;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3); animation: toast-out 0.3s ease 4s forwards;
+}
+.voice-toast.is-listening { animation: none; }
+.voice-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--orange); }
+.voice-toast.is-listening .voice-dot { background: #d93025; animation: mic-pulse 1.2s ease-in-out infinite; }
+@keyframes toast-out { to { opacity: 0; visibility: hidden; } }
+.cmd-list { margin: 8px 0 0; padding-left: 18px; font-size: 12.5px; line-height: 1.6; color: var(--ink-2); }
+.cmd-list b { color: var(--ink); }

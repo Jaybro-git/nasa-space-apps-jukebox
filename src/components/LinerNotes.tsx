@@ -66,6 +66,20 @@ export function LinerNotes({ ds, frame, mappings, log, mood }: Props) {
               <li key={c}>{c}</li>
             ))}
           </ul>
+          <h3 style={{ marginTop: 18, fontSize: 18 }}>Voice commands (K)</h3>
+          <p className="credits">Press K (or the microphone button), say one of these, and the app answers.</p>
+          <ul className="cmd-list">
+            <li><b>play · pause · next · previous · resume</b></li>
+            <li><b>ocean · night lights · lightning · aerosols · Earth</b></li>
+            <li><b>explore · done · point · row · column · box · whole map · scan</b></li>
+            <li><b>north · south · east · west</b> (say “far north” for 5 steps) · <b>next frame · previous frame</b></li>
+            <li><b>zoom in · zoom out · reset zoom · louder · quieter · faster · slower</b></li>
+            <li><b>legend · describe · night mode · day mode · where am I · go to France · repeat · help</b></li>
+          </ul>
+          <p className="credits">
+            Privacy: speech is recognised by your browser. Chrome and Edge send the audio to Google or Microsoft to recognise it; nothing is stored by this site. Firefox does not
+            support voice commands; every command also has a key.
+          </p>
           <h3 style={{ marginTop: 18, fontSize: 18 }}>Credits</h3>
           <p className="credits">
             Data and visualizations: NASA&apos;s{" "}

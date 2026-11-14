@@ -8,6 +8,8 @@ import { usePlayer } from "@/hooks/usePlayer";
 import { useAnnounce } from "@/a11y/Announcer";
 import { setHaptics } from "@/a11y/haptics";
 import { SCRIPT, VoiceGuide, plain, type ClipId } from "@/voice/guide";
+import { matchPlace, vizName, type Command } from "@/voice/commands";
+import { useVoiceCommands } from "@/voice/useVoiceCommands";
 import { Header, type TabId } from "./Header";
 import { Observatory } from "./Observatory";
 import { LinerNotes } from "./LinerNotes";
@@ -60,9 +62,11 @@ export function App() {
   const prefs = useRef({ voiceOn, started });
   prefs.current = { voiceOn, started };
 
+  const lastSpoken = useRef("");
   /** One channel for dynamic messages: the voice guide when on, else the screen-reader live region. */
   const speak = useCallback(
     (text: string) => {
+      lastSpoken.current = text;
       if (prefs.current.voiceOn && prefs.current.started) void guide.say(text);
       else announce(text);
     },
@@ -72,6 +76,7 @@ export function App() {
 
   const clip = useCallback(
     (id: ClipId) => {
+      lastSpoken.current = plain(SCRIPT[id]);
       if (prefs.current.voiceOn && prefs.current.started) return guide.clip(id);
       announce(plain(SCRIPT[id]));
       return Promise.resolve(true);
@@ -217,6 +222,122 @@ export function App() {
     } else announce("Earth Information Jukebox. Press H to hear the keys, Space to play.");
   };
 
+  // ---- voice commands (push-to-talk, K): every command maps to an existing action ----
+  /** Send a key to the Explore map (entering Explore first if needed), as the keyboard would. */
+  const stageKey = (key: string, shift = false, repeat = 1) => {
+    const send = () => {
+      const el = document.querySelector<HTMLElement>(".stage");
+      for (let k = 0; k < repeat; k++) setTimeout(() => el?.dispatchEvent(new KeyboardEvent("keydown", { key, shiftKey: shift, bubbles: true })), k * 60);
+    };
+    if (!exploring) {
+      setExploring(true);
+      setTimeout(send, 250);
+    } else send();
+  };
+
+  const zoomBy = (step: 1 | -1 | 0) => {
+    const z = step === 0 ? 1 : Math.max(ZOOM_MIN, Math.min(ZOOM_MAX, zoom * (step < 0 ? 1 / 1.5 : 1.5)));
+    setZoom(z);
+    speak(`Zoom ${Math.round(z * 10) / 10} times`);
+  };
+
+  /** "go to France": find the country on the Earth map (switching to it first if needed). */
+  const gotoPlace = async (spoken: string) => {
+    const earth = await loadDataset("earth").catch(() => null);
+    const labels = earth?.atlas?.labels ?? [];
+    const name = matchPlace(spoken, labels.map((l) => l.name));
+    const label = labels.find((l) => l.name === name);
+    if (!label) return speak(`I could not find ${spoken} on the map.`);
+    const fire = () => document.querySelector(".stage")?.dispatchEvent(new CustomEvent("jukebox:goto", { detail: { lat: label.lat, lon: label.lon } }));
+    if (vizId !== "earth") {
+      pickViz("earth");
+      setTimeout(fire, 2500); // after the Earth map has loaded and its intro has started
+    } else {
+      if (!exploring) setExploring(true);
+      setTimeout(fire, exploring ? 0 : 250);
+    }
+  };
+
+  const SPEEDS = [0.5, 1, 1.5] as const;
+  const runCommand = (c: Command) => {
+    switch (c.kind) {
+      case "play":
+        if (exploring) stageKey("Enter");
+        else void player.play();
+        return;
+      case "pause":
+        guide.cancel();
+        player.pause();
+        return;
+      case "resume":
+        if (exploring) setExploring(false);
+        else void player.play();
+        return;
+      case "vizStep":
+        return stepViz(c.step);
+      case "viz":
+        if (c.id === vizId) return speak(`${vizName(c.id)} is already open.`);
+        if (!tracks.some((t) => t.id === c.id)) return speak(`${vizName(c.id)} is not available.`);
+        return pickViz(c.id);
+      case "explore":
+        return setExploring(c.on);
+      case "tool":
+        return stageKey(String(["point", "hline", "vline", "box"].indexOf(c.tool) + 1));
+      case "wholeMap":
+        stageKey("4");
+        setTimeout(() => stageKey("a"), 300);
+        return;
+      case "run":
+        return stageKey("Enter");
+      case "move": {
+        const key = { north: "ArrowUp", south: "ArrowDown", east: "ArrowRight", west: "ArrowLeft" }[c.dir];
+        const fives = Math.floor(c.steps / 5);
+        if (fives) stageKey(key, true, fives);
+        if (c.steps % 5) setTimeout(() => stageKey(key, false, c.steps % 5), fives * 60);
+        return;
+      }
+      case "frame":
+        return stageKey(c.step > 0 ? "]" : "[");
+      case "zoom":
+        return zoomBy(c.step);
+      case "volume": {
+        const v = Math.max(0, Math.min(1, Math.round((player.volume + 0.15 * c.step) * 20) / 20));
+        player.setVolume(v);
+        return speak(`Volume ${Math.round(v * 100)} percent.`);
+      }
+      case "speed": {
+        const i = SPEEDS.indexOf(player.controls.speed);
+        const next = c.step === 0 ? 1 : SPEEDS[Math.max(0, Math.min(2, i + c.step))];
+        player.setControls({ speed: next });
+        return speak(next === 1 ? "Normal speed." : next < 1 ? "Slow speed." : "Fast speed.");
+      }
+      case "legend":
+        return void player.playLegend();
+      case "describe":
+        if (c.on !== player.ad) toggleAD();
+        else speak(c.on ? "Descriptions are already on." : "Descriptions are already off.");
+        return;
+      case "theme":
+        if ((theme === "dark") !== c.dark) toggleTheme();
+        return;
+      case "where":
+        return stageKey("i");
+      case "goto":
+        return void gotoPlace(c.place);
+      case "repeat":
+        return speak(lastSpoken.current || "Nothing to repeat yet.");
+      case "help":
+        return void clip("voice-help");
+      case "ambiguous":
+        return speak(c.question);
+    }
+  };
+  const commandRef = useRef(runCommand);
+  commandRef.current = runCommand;
+  const onCommand = useCallback((c: Command) => commandRef.current(c), []);
+  const quietGuide = useCallback(() => guide.cancel(), [guide]);
+  const voice = useVoiceCommands({ engine: player.engine, ensureAudio: player.ensureAudio, quietGuide, speak, onCommand });
+
   // Global single-key shortcuts (can be switched off: WCAG 2.1.4).
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -229,7 +350,7 @@ export function App() {
       const k = e.key.toLowerCase();
       if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT" || el?.getAttribute?.("role") === "listbox") return;
       // inside the Explore map only the keys it does not use itself pass through
-      if (el?.getAttribute?.("role") === "application" && !"emvhgnpld?".includes(k)) return;
+      if (el?.getAttribute?.("role") === "application" && !"emvhgnpldk?".includes(k)) return;
       if (k === " ") {
         if (tag === "BUTTON" || tag === "SUMMARY" || tag === "A") return;
         e.preventDefault();
@@ -247,6 +368,10 @@ export function App() {
       } else if (k === "m") toggleTheme();
       else if (k === "v") setVoiceOn(!voiceOn);
       else if (k === "h" || k === "?") void clip("keys");
+      else if (k === "k") {
+        e.preventDefault();
+        void voice.toggle();
+      }
       else if (k === "+" || k === "=" || k === "-" || k === "_" || k === "0") {
         const z = k === "0" ? 1 : Math.max(ZOOM_MIN, Math.min(ZOOM_MAX, zoom * (k === "-" || k === "_" ? 1 / 1.5 : 1.5)));
         setZoom(z);
@@ -279,7 +404,15 @@ export function App() {
         setVoiceOn={setVoiceOn}
         ad={player.ad}
         toggleAD={toggleAD}
+        listening={voice.listening}
+        onMic={() => void voice.toggle()}
       />
+      {(voice.listening || voice.heard) && (
+        <div className={`voice-toast ${voice.listening ? "is-listening" : ""}`} aria-hidden="true" key={voice.heard || "listening"}>
+          <span className="voice-dot" />
+          {voice.listening ? "Listening… say a command" : `Heard: “${voice.heard}”`}
+        </div>
+      )}
       <main id="main" className={`main ${drawerOpen ? "drawer-open" : "drawer-closed"}`}>
         {ds ? (
           <>
