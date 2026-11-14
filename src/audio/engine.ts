@@ -82,7 +82,16 @@ export class SoundEngine {
   private voice!: Tone.Synth;
   private voiceFilter!: Tone.Filter;
   private voicePan!: Tone.Panner;
-  private tick!: Tone.Synth;
+  /** polyphonic: ticks are scheduled ahead by sweeps and also fired live, in any order */
+  private tick!: Tone.PolySynth;
+  /** the pad is monophonic (it glides), so its note starts must strictly increase */
+  private lastVoiceStart = 0;
+  /** stem players restart on every seek; two seeks in one audio block must not share a start time */
+  private lastStemStart = 0;
+  private stemTime(t: number): number {
+    this.lastStemStart = Math.max(t, this.lastStemStart + 0.005);
+    return this.lastStemStart;
+  }
   private scape!: Soundscape;
   private restTimer: ReturnType<typeof setInterval> | null = null;
   private lastMove = 0;
@@ -166,7 +175,7 @@ export class SoundEngine {
     this.voice = new Tone.Synth(this.opt({ oscillator: { type: "fattriangle" as const, count: 3, spread: 12 }, envelope: { attack: 0.35, decay: 0.3, sustain: 1, release: 0.9 }, portamento: 0.3 })).connect(vib);
     this.voice.volume.value = PAD_DB;
     // gridline tick: very short, a timbre no data note uses
-    this.tick = new Tone.Synth(this.opt({ oscillator: { type: "triangle" as const }, envelope: { attack: 0.002, decay: 0.06, sustain: 0, release: 0.05 } })).connect(this.ch.explore);
+    this.tick = new Tone.PolySynth(this.opt({ voice: Tone.Synth, maxPolyphony: 24, options: { oscillator: { type: "triangle" as const }, envelope: { attack: 0.002, decay: 0.06, sustain: 0, release: 0.05 } } })).connect(this.ch.explore);
     this.tick.volume.value = -14;
     this.disposables.push(vib);
     this.disposables.push(bedFilter, this.bedSynth, this.bedDrone, this.harpPan, this.harp, this.probePan, this.probe, this.voicePan, this.voiceFilter, this.voice, this.tick);
@@ -224,7 +233,7 @@ export class SoundEngine {
   seek(t: number): void {
     this.offset = t;
     if (!this.running) return;
-    const now = this.ctx.now() + 0.03;
+    const now = this.stemTime(this.ctx.now() + 0.03);
     this.startedAt = now;
     for (const p of Object.values(this.stemPlayers)) {
       if (!p) continue;
@@ -245,7 +254,7 @@ export class SoundEngine {
     if (this.ctx.state !== "running") void this.ctx.resume();
     this.running = true;
     this.offset = at;
-    const now = this.ctx.now() + 0.05;
+    const now = this.stemTime(this.ctx.now() + 0.05);
     this.startedAt = now;
     for (const p of Object.values(this.stemPlayers)) if (p) p.start(now, this.duration ? at % this.duration : at);
     this.startBed();
@@ -363,7 +372,7 @@ export class SoundEngine {
     this.lastExplore = v;
     const freq = midiToFreq(valueToMidiSmooth(this.key, v, this.controls.pitchOct));
     if (!this.voiceOn) {
-      this.voice.triggerAttack(freq, now, 0.6);
+      this.voiceAttack(freq, now);
       this.voiceOn = true;
     } else this.voice.setNote(freq, now);
     this.voice.volume.rampTo(PAD_DB, 0.3);
@@ -372,6 +381,13 @@ export class SoundEngine {
     this.startRest();
   }
   private lastExplore: number | null = null;
+
+  /** Start the pad, never at or before its previous start (Tone throws otherwise). */
+  private voiceAttack(freq: number, t: number): void {
+    const at = Math.max(t, this.lastVoiceStart + 0.01);
+    this.lastVoiceStart = at;
+    this.voice.triggerAttack(freq, at, 0.6);
+  }
 
   private pluck(v: number, at: number, vel: number): void {
     this.harp.triggerAttackRelease(midiToFreq(valueToMidi(this.key, v, this.controls.pitchOct)), 1.2, at, vel);
@@ -445,7 +461,7 @@ export class SoundEngine {
     const first = samples.find((s) => s.value != null);
     const freq = (v: number) => midiToFreq(valueToMidiSmooth(this.key, v, this.controls.pitchOct));
     this.voice.volume.setValueAtTime(-60, t0 - 0.01);
-    this.voice.triggerAttack(freq(first?.value ?? 0.5), t0, 0.6);
+    this.voiceAttack(freq(first?.value ?? 0.5), t0);
     this.voiceOn = true;
     samples.forEach((s, k) => {
       const t = t0 + s.t * seconds;
