@@ -3,16 +3,29 @@
 // .env.local (FISH_MODEL optional, default: the free model), the texts from src/voice/script.json, and writes public/voice/*.mp3 plus
 // public/voice/manifest.json. Unchanged texts are skipped.
 //
-//   node scripts/voice.mjs            generate / update clips
-//   node scripts/voice.mjs --list     list candidate English voices and exit
+//   node scripts/voice.mjs                              generate / update clips (public/voice)
+//   node scripts/voice.mjs --list                       list candidate English voices and exit
+//   node scripts/voice.mjs --voice=<id> --out=<dir>      generate a second voice set into public/<dir>,
+//                                                         leaving public/voice untouched
 import { createHash } from "node:crypto";
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
-const OUT = join(ROOT, "public", "voice");
 const API = "https://api.fish.audio";
+
+function arg(name) {
+  const p = `--${name}=`;
+  const hit = process.argv.find((a) => a.startsWith(p));
+  return hit ? hit.slice(p.length) : null;
+}
+
+// --out lets a second (or third) voice set live in its own public/ subfolder
+// so it doesn't clobber an existing manifest/clips, e.g.:
+//   node scripts/voice.mjs --voice=<id> --out=voice-2
+const OUT_DIR = arg("out") || "voice";
+const OUT = join(ROOT, "public", OUT_DIR);
 
 function env() {
   const out = { ...process.env };
@@ -26,6 +39,7 @@ function env() {
 }
 
 const { FISH_API_KEY: KEY, FISH_VOICE_ID, FISH_MODEL } = env();
+const VOICE_OVERRIDE = arg("voice") || FISH_VOICE_ID;
 // the free text-to-speech model (no API credit needed); set FISH_MODEL to use a paid one
 const MODEL = FISH_MODEL || "s2.1-pro-free";
 if (!KEY) {
@@ -94,7 +108,7 @@ mkdirSync(OUT, { recursive: true });
 const script = JSON.parse(readFileSync(join(ROOT, "src", "voice", "script.json"), "utf8"));
 const manifestPath = join(OUT, "manifest.json");
 const old = existsSync(manifestPath) ? JSON.parse(readFileSync(manifestPath, "utf8")) : { clips: {} };
-let voice = FISH_VOICE_ID || old.voice;
+let voice = VOICE_OVERRIDE || old.voice;
 if (!voice) {
   const v = pickVoice(await voices());
   voice = v.id;
@@ -107,7 +121,7 @@ for (const [id, text] of Object.entries(script)) {
     if (!segs[k]) continue;
     const key = `${id}#${k}`;
     const hash = createHash("sha1").update(`${voice}|${MODEL}|64|${segs[k]}`).digest("hex").slice(0, 12);
-    const file = `/voice/${id}-${k}.mp3`;
+    const file = `/${OUT_DIR}/${id}-${k}.mp3`;
     if (old.clips?.[key]?.hash === hash && existsSync(join(ROOT, "public", file))) {
       manifest.clips[key] = old.clips[key];
       continue;
@@ -119,4 +133,4 @@ for (const [id, text] of Object.entries(script)) {
   }
 }
 writeFileSync(manifestPath, JSON.stringify(manifest, null, 1));
-console.log(`${Object.keys(manifest.clips).length} clips in public/voice/manifest.json`);
+console.log(`${Object.keys(manifest.clips).length} clips in public/${OUT_DIR}/manifest.json`);

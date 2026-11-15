@@ -1,0 +1,74 @@
+{
+ "voice": "933563129e564b19a115bedd57b7406a",
+ "model": "s2.1-pro-free",
+ "clips": {
+  "intro#0": {
+   "file": "/voice-2/intro-0.mp3",
+   "hash": "63002edcb8e1"
+  },
+  "keys#0": {
+   "file": "/voice-2/keys-0.mp3",
+   "hash": "7aa7c28393a6"
+  },
+  "explore#0": {
+   "file": "/voice-2/explore-0.mp3",
+   "hash": "afc4fd6e5f0d"
+  },
+  "ds-sst#0": {
+   "file": "/voice-2/ds-sst-0.mp3",
+   "hash": "7c826ced8d04"
+  },
+  "ds-sst#1": {
+   "file": "/voice-2/ds-sst-1.mp3",
+   "hash": "d2b03e67821e"
+  },
+  "ds-sst#2": {
+   "file": "/voice-2/ds-sst-2.mp3",
+   "hash": "572564523ea6"
+  },
+  "ds-nightlights#0": {
+   "file": "/voice-2/ds-nightlights-0.mp3",
+   "hash": "86172e756602"
+  },
+  "ds-nightlights#1": {
+   "file": "/voice-2/ds-nightlights-1.mp3",
+   "hash": "77ef67e76422"
+  },
+  "ds-nightlights#2": {
+   "file": "/voice-2/ds-nightlights-2.mp3",
+   "hash": "e28b8e60acc2"
+  },
+  "ds-lightning#0": {
+   "file": "/voice-2/ds-lightning-0.mp3",
+   "hash": "91afc226ed19"
+  },
+  "ds-lightning#1": {
+   "file": "/voice-2/ds-lightning-1.mp3",
+   "hash": "ae1f23e27473"
+  },
+  "ds-lightning#2": {
+   "file": "/voice-2/ds-lightning-2.mp3",
+   "hash": "f5083d3542b1"
+  },
+  "ds-earth#0": {
+   "file": "/voice-2/ds-earth-0.mp3",
+   "hash": "4cf0e53e7153"
+  },
+  "ds-aerosols#0": {
+   "file": "/voice-2/ds-aerosols-0.mp3",
+   "hash": "6bcba6b5b87d"
+  },
+  "ds-aerosols#1": {
+   "file": "/voice-2/ds-aerosols-1.mp3",
+   "hash": "63210e654ef6"
+  },
+  "ds-aerosols#2": {
+   "file": "/voice-2/ds-aerosols-2.mp3",
+   "hash": "d59f952738ad"
+  },
+  "voice-help#0": {
+   "file": "/voice-2/voice-help-0.mp3",
+   "hash": "f4c29faa0427"
+  }
+ }
+}
