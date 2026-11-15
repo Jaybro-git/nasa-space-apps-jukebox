@@ -142,8 +142,16 @@ export class VoiceGuide {
     return new Promise((resolve) => {
       const u = new SpeechSynthesisUtterance(text);
       const voices = speechSynthesis.getVoices();
-      // prefer a natural / neural English voice when the system has one
-      u.voice = voices.find((v) => /en/i.test(v.lang) && /natural|neural|online/i.test(v.name)) ?? voices.find((v) => /^en/i.test(v.lang)) ?? null;
+      // prefer a natural / neural, female English voice when the system has one
+      const female = (v: SpeechSynthesisVoice) => /female|zira|samantha|victoria|karen|moira|tessa|susan|linda|fiona|ava|allison|hazel|catherine|amelia|joanna|salli|kimberly|kendra|emma|olivia|sonia|serena|shelley|heather|nicky|aria|jenny|michelle|libby|aditi|raveena/i.test(v.name);
+      const en = (v: SpeechSynthesisVoice) => /^en/i.test(v.lang);
+      const natural = (v: SpeechSynthesisVoice) => /natural|neural|online/i.test(v.name);
+      u.voice =
+        voices.find((v) => en(v) && natural(v) && female(v)) ??
+        voices.find((v) => en(v) && female(v)) ??
+        voices.find((v) => en(v) && natural(v)) ??
+        voices.find(en) ??
+        null;
       u.rate = 1;
       u.onend = () => resolve();
       u.onerror = () => resolve();

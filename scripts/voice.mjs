@@ -42,13 +42,27 @@ async function voices() {
   return items.map((m) => ({ id: m._id, title: m.title, tags: m.tags ?? [], desc: (m.description ?? "").slice(0, 80) }));
 }
 
-/** A calm narrator: prefer narration / audiobook / calm / documentary tags or titles. */
+/** A relaxing female narrator: prefer female / calm / narration / audiobook tags or titles. */
 function pickVoice(list) {
   const score = (v) => {
     const t = `${v.title} ${v.tags.join(" ")} ${v.desc}`.toLowerCase();
     let s = 0;
-    for (const [w, p] of [["narrat", 5], ["documentary", 4], ["audiobook", 4], ["calm", 3], ["soft", 2], ["warm", 2], ["professional", 1]]) if (t.includes(w)) s += p;
-    for (const w of ["anime", "meme", "trump", "cartoon", "villain", "asmr", "sexy"]) if (t.includes(w)) s -= 10;
+    for (const [w, p] of [
+      ["female", 6],
+      ["woman", 6],
+      ["relax", 5],
+      ["calm", 5],
+      ["soothing", 5],
+      ["narrat", 4],
+      ["documentary", 3],
+      ["audiobook", 3],
+      ["soft", 3],
+      ["gentle", 3],
+      ["warm", 2],
+      ["professional", 1],
+    ])
+      if (t.includes(w)) s += p;
+    for (const w of ["male", "man", "anime", "meme", "trump", "cartoon", "villain", "asmr", "sexy"]) if (t.includes(w)) s -= 10;
     return s;
   };
   return [...list].sort((a, b) => score(b) - score(a))[0];
