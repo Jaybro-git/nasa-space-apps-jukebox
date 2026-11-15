@@ -46,7 +46,7 @@ export function StartGate({ voiceOn, theme, onStart }: { voiceOn: boolean; theme
           <span className="brand-disc gate-disc" aria-hidden="true" />
           <h2 id="gate-h">The Earth Information Jukebox</h2>
           <p id="gate-d">
-            NASA Earth data, turned into calm music you can explore by ear. Press <kbd>Enter</kbd> to start with the voice guide, or <kbd>Escape</kbd> to start silently.
+            NASA Earth data, turned into calm music you can explore by ear. Meet Jodi, your voice guide. Press <kbd>Enter</kbd> to start with Jodi, or <kbd>Escape</kbd> to start silently.
           </p>
           <div className="gate-btns">
             <button ref={btn} type="button" className="btn-primary" onClick={() => onStart(true)}>

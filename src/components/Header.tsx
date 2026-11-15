@@ -88,8 +88,8 @@ export function Header(p: Props) {
             <path fill="currentColor" d="M12 15a3 3 0 0 0 3-3V6a3 3 0 0 0-6 0v6a3 3 0 0 0 3 3Zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.92V21h2v-2.08A7 7 0 0 0 19 12h-2Z" />
           </svg>
         </button>
-        <button type="button" className="toggle" aria-pressed={p.voiceOn} onClick={() => p.setVoiceOn(!p.voiceOn)} title="Voice guide (V)">
-          <span aria-hidden="true">🗣</span> Voice guide
+        <button type="button" className="toggle" aria-pressed={p.voiceOn} onClick={() => p.setVoiceOn(!p.voiceOn)} title="Jodi, your voice guide (V)">
+          <span aria-hidden="true">🗣</span> Jodi
         </button>
         <button type="button" className="toggle" aria-pressed={p.ad} onClick={p.toggleAD} title="Spoken descriptions of data changes (D)">
           <span aria-hidden="true">≋</span> Descriptions

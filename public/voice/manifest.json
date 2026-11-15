@@ -4,7 +4,7 @@
  "clips": {
   "intro#0": {
    "file": "/voice/intro-0.mp3",
-   "hash": "6721be56f253"
+   "hash": "63002edcb8e1"
   },
   "keys#0": {
    "file": "/voice/keys-0.mp3",
@@ -16,55 +16,55 @@
   },
   "ds-sst#0": {
    "file": "/voice/ds-sst-0.mp3",
-   "hash": "4744635b099d"
+   "hash": "7c826ced8d04"
   },
   "ds-sst#1": {
    "file": "/voice/ds-sst-1.mp3",
-   "hash": "43f1cea4b68e"
+   "hash": "d2b03e67821e"
   },
   "ds-sst#2": {
    "file": "/voice/ds-sst-2.mp3",
-   "hash": "ed7edef9d481"
+   "hash": "572564523ea6"
   },
   "ds-nightlights#0": {
    "file": "/voice/ds-nightlights-0.mp3",
-   "hash": "528f1f98e657"
+   "hash": "86172e756602"
   },
   "ds-nightlights#1": {
    "file": "/voice/ds-nightlights-1.mp3",
-   "hash": "78f0b99d79c6"
+   "hash": "77ef67e76422"
   },
   "ds-nightlights#2": {
    "file": "/voice/ds-nightlights-2.mp3",
-   "hash": "555ab3361e12"
+   "hash": "e28b8e60acc2"
   },
   "ds-lightning#0": {
    "file": "/voice/ds-lightning-0.mp3",
-   "hash": "03ea601b8f98"
+   "hash": "91afc226ed19"
   },
   "ds-lightning#1": {
    "file": "/voice/ds-lightning-1.mp3",
-   "hash": "c2551b5a8e76"
+   "hash": "ae1f23e27473"
   },
   "ds-lightning#2": {
    "file": "/voice/ds-lightning-2.mp3",
-   "hash": "6c8ccda97bcb"
+   "hash": "f5083d3542b1"
   },
   "ds-earth#0": {
    "file": "/voice/ds-earth-0.mp3",
-   "hash": "89e142fc91d1"
+   "hash": "4cf0e53e7153"
   },
   "ds-aerosols#0": {
    "file": "/voice/ds-aerosols-0.mp3",
-   "hash": "adc0c97f17f6"
+   "hash": "6bcba6b5b87d"
   },
   "ds-aerosols#1": {
    "file": "/voice/ds-aerosols-1.mp3",
-   "hash": "ee2eb426daaa"
+   "hash": "63210e654ef6"
   },
   "ds-aerosols#2": {
    "file": "/voice/ds-aerosols-2.mp3",
-   "hash": "be3e2de67845"
+   "hash": "d59f952738ad"
   },
   "voice-help#0": {
    "file": "/voice/voice-help-0.mp3",
