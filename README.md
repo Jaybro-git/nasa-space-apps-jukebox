@@ -1,5 +1,7 @@
 # The Earth Information Jukebox
 
+![Earth Information Jukebox screenshot](docs/screenshot.png)
+
 **Can you hear the planet change?** A NASA Space Apps project that turns NASA Earth Information Center / Scientific Visualization Studio (SVS) visualizations into calm, explorable sound. It is built first for blind and low-vision listeners.
 
 - **Every onset is data.** One soft note per data sample, so the steady pulse *is* the data's own clock and silence means "no data". Higher value = higher note; busier data = faster repeated notes (1–4 per sample, never more than 8 per second); lightning flashes are plucked hits where they strike. Nothing is random, and the background pad is a sustained chord with no beat, so no rhythm can be mistaken for data.
